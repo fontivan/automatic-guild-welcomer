@@ -1,2 +1,2 @@
 # wb-auto
-An addon for World of Warcraft: Burning Crusade Classic to automatically welcome back your guild members after they log in
+An addon for World of Warcraft: The Burning Crusade Classic to automatically welcome back guild members upon login.

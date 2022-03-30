@@ -1,0 +1,7 @@
+## Interface: 20504
+## Title: WbAuto
+## Notes: Automatically welcome back guild members on login.
+## Author: fontivan
+## Version: 1.0.0
+
+wb-auto.lua

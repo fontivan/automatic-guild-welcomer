@@ -1,0 +1,6 @@
+ignore:
+    - install.sh
+    - README.md
+    - .gitignore
+
+manual-changelog: CHANGELOG.txt
