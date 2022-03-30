@@ -1,29 +1,32 @@
 
+-- Convert the raw ui strings into search patterns
+local function topattern(str)
+	if not str then return "" end
+	str = gsub(str, "%%%d?$?c", ".+")
+	str = gsub(str, "%%%d?$?d", "%%d+")
+	str = gsub(str, "%%%d?$?s", ".+")
+	str = gsub(str, "([%(%)])", "%%%1")
+	return str
+end
+
 -- Used to detect whether the system message was a login or logout message
-local WbAuto_LoginMessage = ERR_FRIEND_ONLINE_SS:gsub("|Hplayer:%%s|h%[%%s%]|h", "|Hplayer:.+|h%%[.+%%]|h")
+local patterns = {
+	-- topattern(ERR_FRIEND_OFFLINE_S),
+	topattern(ERR_FRIEND_ONLINE_SS),
+}
 
--- Returns true if the message matches the login format.
-local function WbAuto_IsLoginMessage(msg)
-	if msg.find(WbAuto_LoginMessage) then
-		return true
+-- Create a frame and register to the system messages
+local f = CreateNewFrame("WbAuto")
+f:RegisterEvent("CHAT_MSG_SYSTEM")
+
+-- On receiving a message, check if it matches the login pattern
+f:SetScript("OnEvent", function (self, event, message, ...)
+	if event == "CHAT_MSG_SYSTEM" then
+		for i = 1, #patterns do
+			if msg:match(pattern) then
+				-- if it does, then send a
+				SendChatMessage("wb", "GUILD")
+			end
+		end
 	end
-	return false
-end
-
--- Send the WB message if the event was a login message
-local function WbAuto_SendWbMessage(self, event, msg)
-	SendChatMessage("wb", "GUILD")
-end
-
--- The filter is used to grab all messages matching the filter
-local function WbAuto_LoginMessageFilter(self, event, msg)
-	return WbAuto_IsLoginMessage(msg)
-end
-
--- Create a frame and set up the wb
-local WbAutoFrame = CreateFrame("WbAuto")
-WbAutoFrame:RegisterEvent("CHAT_MSG_SYSTEM")
-WbAutoFrame:SetScript("OnEvent", WbAuto_SendWbMessage)
-
--- Add the filter to the chat frame
-ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", WbAuto_LoginMessageFilter)
+end)
