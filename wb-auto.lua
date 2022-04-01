@@ -65,7 +65,6 @@ f:SetScript("OnEvent", function (self, event, message, ...)
 	local player_count = GetNumGuildMembers()
 
 	-- Strip the player name of the person who just logged in
-	-- Substring to remove the first and last characters since they are square brackets
 	local detected_player = WbAuto_GetFirstElement(message)
 
 	-- Loop over the player indexes and see if any of them were the player that logged in
