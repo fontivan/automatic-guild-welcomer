@@ -1,3 +1,6 @@
+v1.0.1
+- Fix error loading lua file
+
 v1.0.0
 - Initial release
 - Automatically send a "wb" message to guild when a guild member logs in

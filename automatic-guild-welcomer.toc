@@ -2,6 +2,6 @@
 ## Title: Automatic Guild Welcomer
 ## Notes: Automatically welcome back guild members on login.
 ## Author: fontivan
-## Version: 1.0.0
+## Version: 1.0.1
 
-wb-auto.lua
+automatic-guild-welcomer.lua
