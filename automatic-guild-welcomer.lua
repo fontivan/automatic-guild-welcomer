@@ -1,5 +1,5 @@
 -- Return the first element from a string split operation
-function WbAuto_GetFirstElement (input, sep)
+function AutoWelcome_GetFirstElement (input, sep)
 
 	-- Protect against a bad input
 	if input == nil then
@@ -13,12 +13,12 @@ function WbAuto_GetFirstElement (input, sep)
 
 	-- Return the first match from the separator.
 	for str in string.gmatch(input, "([^"..sep.."]+)") do
-		return WbAuto_TrimString(str)
+		return AutoWelcome_TrimString(str)
 	end
 end
 
 -- Trim any excess whitespace from the string
-function WbAuto_TrimString(input)
+function AutoWelcome_TrimString(input)
 
 	-- Protect against a bad input
 	if input == nil
@@ -65,13 +65,13 @@ f:SetScript("OnEvent", function (self, event, message, ...)
 	local player_count = GetNumGuildMembers()
 
 	-- Strip the player name of the person who just logged in
-	local detected_player = WbAuto_GetFirstElement(message)
+	local detected_player = AutoWelcome_GetFirstElement(message)
 
 	-- Loop over the player indexes and see if any of them were the player that logged in
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
-		local guild_member = WbAuto_GetFirstElement(GetGuildRosterInfo(i), "-")
+		local guild_member = AutoWelcome_GetFirstElement(GetGuildRosterInfo(i), "-")
 
 		-- If the person that just logged in is in our guild then welcome them back
 		if detected_player:match(guild_member) then

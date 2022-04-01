@@ -1,5 +1,5 @@
 ## Interface: 20504
-## Title: WbAuto
+## Title: Automatic Guild Welcomer
 ## Notes: Automatically welcome back guild members on login.
 ## Author: fontivan
 ## Version: 1.0.0
