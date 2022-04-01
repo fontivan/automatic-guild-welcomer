@@ -1,2 +1,3 @@
 v1.0.0
 - Initial release
+- Automatically send a "wb" message to guild when a guild member logs in
