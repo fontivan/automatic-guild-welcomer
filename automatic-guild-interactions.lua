@@ -15,8 +15,24 @@ local AutoGuild = {
 		last_message_sent = 0,
 		min_message_time = 10
 	},
-	frame = {}
+	frame = {},
+	-- luacheck: push ignore 113
+	player_name = UnitName("player"),
+	-- luacheck: pop,
+	debug_logs = false
 };
+
+-- Log a debug message if the debug flag is set
+function AutoGuild:LogDebugMessage(message)
+
+	-- Return if debug logs is not enabled
+	if not AutoGuild.debug_logs then
+		return;
+	end
+
+	-- Print the debug message
+	print(message)
+end
 
 -- Rate limited function to send messages to chat channel
 function AutoGuild:SendMessage(message, channel)
@@ -68,7 +84,9 @@ function AutoGuild:TrimString(input)
 end
 
 -- Return the first element from a string split operation
-function AutoGuild:GetFirstElement(input, sep)
+function AutoGuild:StringSplit(input, sep)
+
+	AutoGuild.LogDebugMessage(_, "StringSplit input:" .. input)
 
 	-- Protect against a bad input
 	if input == nil then
@@ -77,31 +95,45 @@ function AutoGuild:GetFirstElement(input, sep)
 
 	-- Protect againt an optional argument
 	if sep == nil then
-			sep = "%s";
+		sep = "%s";
 	end
 
-	-- Return the first match from the separator.
-	local results = string.gmatch(input, "([^"..sep.."]+)")
-	return results[1]
+	-- Table to store results
+	local words = {};
+
+	-- Insert the words into the table
+	for word in string.gmatch(input, "([^"..sep.."]+)") do
+		table.insert(words, word);
+	end
+
+	-- Return the results
+	return words;
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
-function AutoGuild:WelcomeBack(_, message)
+function AutoGuild:WelcomeBack(message)
 
 	-- Fetch the number of players in the guild
 	-- luacheck: push ignore 113
 	local player_count = GetNumGuildMembers();
 	-- luacheck: pop
 
+	-- Temp variable to store split results
+	local splits
+
 	-- Strip the player name of the person who just logged in
-	local detected_player = AutoGuild.GetFirstElement(_, message);
+	AutoGuild.LogDebugMessage(_, "WelcomeBack message: " .. message);
+	splits = AutoGuild.StringSplit(_, message);
+	local detected_player = splits[1];
+	AutoGuild.LogDebugMessage(_, "WelcomeBack detected_player: " .. detected_player);
 
 	-- Loop over the player indexes and see if any of them were the player that logged in
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
 		-- luacheck: push ignore 113
-		local guild_member = AutoGuild.GetFirstElement(_, GetGuildRosterInfo(i), "-");
+		splits = AutoGuild.StringSplit(_, GetGuildRosterInfo(i), "-");
+		local guild_member = splits[1];
 		-- luacheck: pop
 
 		-- If the person that just logged in is in our guild then welcome them back
@@ -121,7 +153,7 @@ AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 
 -- On receiving a message, run this function
-AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
+AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 
 	-- If we aren't in a guild then do nothing
 	-- luacheck: push ignore 113
@@ -153,6 +185,12 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 
 	-- Check if its a guild message
 	if event == "CHAT_MSG_GUILD" then
+
+		-- Don't check against our own messages
+		if author:match(AutoGuild.player_name) then
+			return;
+		end
+
 
 		-- Check against the patterns for incoming level up messages
 		for _, pattern in pairs(AutoGuild.patterns.level) do
