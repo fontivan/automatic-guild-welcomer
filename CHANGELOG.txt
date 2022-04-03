@@ -1,6 +1,7 @@
 v1.1.0
 - Rename project from Automatic Guild Welcomer to Automatic Guild Interactions
--  
+- Add sending "ding" on level up
+- Add sending "grats" when somebody else sends "ding"
 
 v1.0.1
 - Fix error loading lua file

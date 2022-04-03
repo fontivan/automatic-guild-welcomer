@@ -1,3 +1,26 @@
+
+-- Patterns to be matched against
+local login_patterns = {
+	"has come online."
+};
+
+local level_patterns = {
+	"Congratulations, you have reached level"
+};
+
+-- Trim any excess whitespace from the string
+local function AutoGuild_TrimString(input)
+
+	-- Protect against a bad input
+	if input == nil
+	then
+		return ""
+	end
+
+	-- Return the trimmed string
+	return string.gsub(input, "%s+", "")
+end
+
 -- Return the first element from a string split operation
 local function AutoGuild_GetFirstElement (input, sep)
 
@@ -15,19 +38,6 @@ local function AutoGuild_GetFirstElement (input, sep)
 	for str in string.gmatch(input, "([^"..sep.."]+)") do
 		return AutoGuild_TrimString(str)
 	end
-end
-
--- Trim any excess whitespace from the string
-local function AutoGuild_TrimString(input)
-
-	-- Protect against a bad input
-	if input == nil
-	then
-		return ""
-	end
-
-	-- Return the trimmed string
-	return string.gsub(input, "%s+", "")
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
@@ -60,21 +70,18 @@ local function AutoGuild_LevelUp()
 	return
 end
 
+-- Send a grats message to guild chat
+local function AutoGuild_Grats()
+	SendChatMessage("grats", "GUILD")
+	return
+end
+
 -- Create a frame and register to the system messages
-local f = CreateFrame("Frame")
-f:RegisterEvent("CHAT_MSG_SYSTEM")
-
--- Detection strings that will trigger the addon
-local login_patterns = {
-	"has come online."
-};
-
-local level_patterns = {
-	"Congratulations, you have reached level"
-};
+local systemFrame = CreateFrame("Frame")
+systemFrame:RegisterEvent("CHAT_MSG_SYSTEM")
 
 -- On receiving a message, run this function
-f:SetScript("OnEvent", function (self, event, message, ...)
+systemFrame:SetScript("OnEvent", function (self, event, message, ...)
 
 	-- If we aren't in a guild then do nothing
 	if not IsInGuild() then
@@ -98,3 +105,14 @@ f:SetScript("OnEvent", function (self, event, message, ...)
 	end
 
 end)
+
+-- Create a frame and register to the system messages
+local systemFrame = CreateFrame("Frame")
+systemFrame:RegisterEvent("CHAT_MSG_GUILD")
+
+-- On receiving a message, run this function
+systemFrame:SetScript("OnEvent", function (self, event, message, ...)
+	if message:match("ding") then
+		AutoGuild_Grats()
+	end
+end
