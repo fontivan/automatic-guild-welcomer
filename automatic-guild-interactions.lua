@@ -17,7 +17,9 @@ local AutoGuild = {
 };
 
 -- Rate limited function to send messages to chat channel
-function AutoGuild:SendMessage(_, message, channel)
+-- luacheck: push ignore 212
+function AutoGuild:SendMessage(message, channel)
+-- luacheck: pop
 
 	-- Check if the message is valid
 	if message == nil or message == "" then
@@ -53,7 +55,9 @@ function AutoGuild:SendMessage(_, message, channel)
 end
 
 -- Trim any excess whitespace from the string
-function AutoGuild:TrimString(_, input)
+-- luacheck: push ignore 212
+function AutoGuild:TrimString(input)
+-- luacheck: pop
 
 	-- Protect against a bad input
 	if input == nil
@@ -66,7 +70,9 @@ function AutoGuild:TrimString(_, input)
 end
 
 -- Return the first element from a string split operation
-function AutoGuild:GetFirstElement (_, input, sep)
+-- luacheck: push ignore 212
+function AutoGuild:GetFirstElement (input, sep)
+-- luacheck: pop
 
 	-- Protect against a bad input
 	if input == nil then
@@ -84,7 +90,9 @@ function AutoGuild:GetFirstElement (_, input, sep)
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
-function AutoGuild:WelcomeBack(_, message)
+-- luacheck: push ignore 212
+function AutoGuild:WelcomeBack(message)
+-- luacheck: pop
 
 	-- Fetch the number of players in the guild
 	-- luacheck: push ignore 113
@@ -119,7 +127,7 @@ AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 
 -- On receiving a message, run this function
-AutoGuild.frame:SetScript("OnEvent", function (_, event, message, ...)
+AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 
 	-- If we aren't in a guild then do nothing
 	-- luacheck: push ignore 113
