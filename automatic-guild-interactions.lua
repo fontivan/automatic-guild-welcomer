@@ -17,9 +17,7 @@ local AutoGuild = {
 };
 
 -- Rate limited function to send messages to chat channel
--- luacheck: push ignore 212
 function AutoGuild:SendMessage(message, channel)
--- luacheck: pop
 
 	-- Check if the message is valid
 	if message == nil or message == "" then
@@ -55,9 +53,7 @@ function AutoGuild:SendMessage(message, channel)
 end
 
 -- Trim any excess whitespace from the string
--- luacheck: push ignore 212
 function AutoGuild:TrimString(input)
--- luacheck: pop
 
 	-- Protect against a bad input
 	if input == nil
@@ -70,9 +66,7 @@ function AutoGuild:TrimString(input)
 end
 
 -- Return the first element from a string split operation
--- luacheck: push ignore 212
 function AutoGuild:GetFirstElement (input, sep)
--- luacheck: pop
 
 	-- Protect against a bad input
 	if input == nil then
@@ -90,9 +84,7 @@ function AutoGuild:GetFirstElement (input, sep)
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
--- luacheck: push ignore 212
 function AutoGuild:WelcomeBack(message)
--- luacheck: pop
 
 	-- Fetch the number of players in the guild
 	-- luacheck: push ignore 113
