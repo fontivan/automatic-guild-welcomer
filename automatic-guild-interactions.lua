@@ -86,7 +86,7 @@ function AutoGuild:GetFirstElement(input, sep)
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
-function AutoGuild:WelcomeBack(message)
+function AutoGuild:WelcomeBack(_, message)
 
 	-- Fetch the number of players in the guild
 	-- luacheck: push ignore 113
