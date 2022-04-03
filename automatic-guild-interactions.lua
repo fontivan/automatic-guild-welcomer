@@ -1,7 +1,4 @@
 
---luacheck: push ignore 212
---luacheck: push ignore 113
-
 -- Global table for storing everything
 local AutoGuild = {
 	patterns = {
@@ -204,6 +201,3 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 	end
 
 end);
-
--- luacheck: pop
--- luacheck: pop
