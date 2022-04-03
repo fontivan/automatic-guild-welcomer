@@ -1,3 +1,6 @@
+v.1.2.3
+- Replace incorrect version
+
 v1.2.2
 - Internal code cleanup
 - Will no longer reply to messages sent by your character
