@@ -4,7 +4,7 @@
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # The name of the addon
-ADDON_NAME="automatic-guild-welcomer"
+ADDON_NAME="automatic-guild-interactions"
 
 # The path to the WoW addon directory you want to install to
 WOW_ADDON_DIR="${1}"
