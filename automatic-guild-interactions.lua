@@ -20,7 +20,7 @@ local AutoGuild = {
 	player_name = UnitName("player"),
 	debug_logs = false
 };
-	-- luacheck: pop,
+-- luacheck: pop,
 
 -- Log a debug message if the debug flag is set
 function AutoGuild:LogDebugMessage(message)
@@ -204,5 +204,3 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 	end
 
 end);
-
--- luacheck: pop
