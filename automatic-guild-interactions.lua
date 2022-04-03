@@ -17,7 +17,7 @@ local AutoGuild = {
 };
 
 -- Rate limited function to send messages to chat channel
-function AutoGuild:SendMessage(message, channel)
+function AutoGuild:SendMessage(_, message, channel)
 
 	-- Check if the message is valid
 	if message == nil or message == "" then
@@ -53,7 +53,7 @@ function AutoGuild:SendMessage(message, channel)
 end
 
 -- Trim any excess whitespace from the string
-function AutoGuild:TrimString(input)
+function AutoGuild:TrimString(_, input)
 
 	-- Protect against a bad input
 	if input == nil
@@ -66,7 +66,7 @@ function AutoGuild:TrimString(input)
 end
 
 -- Return the first element from a string split operation
-function AutoGuild:GetFirstElement (input, sep)
+function AutoGuild:GetFirstElement (_, input, sep)
 
 	-- Protect against a bad input
 	if input == nil then
@@ -79,12 +79,12 @@ function AutoGuild:GetFirstElement (input, sep)
 	end
 
 	-- Return the first match from the separator.
-	results = string.gmatch(input, "([^"..sep.."]+)")
+	local results = string.gmatch(input, "([^"..sep.."]+)")
 	return results[1]
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
-function AutoGuild:WelcomeBack(message)
+function AutoGuild:WelcomeBack(_, message)
 
 	-- Fetch the number of players in the guild
 	-- luacheck: push ignore 113
