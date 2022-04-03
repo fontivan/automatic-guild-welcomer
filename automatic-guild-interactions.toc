@@ -2,6 +2,6 @@
 ## Title: Automatic Guild Interactions
 ## Notes: Automatically perform some simple guild itneractions like welcoming members back and dinging.
 ## Author: fontivan
-## Version: 1.1.0
+## Version: 1.2.0
 
 automatic-guild-interactions.lua
