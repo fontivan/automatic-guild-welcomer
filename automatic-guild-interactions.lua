@@ -1,4 +1,6 @@
 
+-- luacheck: push ignore 212
+
 -- Global table for storing everything
 local AutoGuild = {
 	patterns = {
@@ -164,3 +166,5 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 	end
 
 end);
+
+-- luacheck: pop

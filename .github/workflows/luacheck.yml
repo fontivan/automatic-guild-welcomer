@@ -32,4 +32,4 @@ jobs:
         uses: lunarmodules/luacheck@v0.26.0
         with:
           # Arguments passed to luacheck
-          args: --ignore 212
+          args: .
