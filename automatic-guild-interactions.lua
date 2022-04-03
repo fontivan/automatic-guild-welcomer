@@ -17,7 +17,6 @@ local AutoGuild = {
 	player_name = UnitName("player"),
 	debug_logs = false
 };
--- luacheck: pop
 
 -- Log a debug message if the debug flag is set
 function AutoGuild:LogDebugMessage(message)
@@ -45,9 +44,7 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
-	-- luacheck: push ignore 113
 	local current_time = time(date("!*t"));
-	-- luacheck: pop
 
 	-- Check against the last timestamp
 	-- The current time must be greater then the last time
@@ -55,9 +52,7 @@ function AutoGuild:SendMessage(message, channel)
 	if current_time > AutoGuild.rate_limit.min_message_time + AutoGuild.rate_limit.last_message_sent then
 
 		-- Send the chat message
-		-- luacheck: push ignore 113
 		SendChatMessage(message, channel);
-		-- luacheck: pop
 
 		-- Record the time we sent the message
 		AutoGuild.rate_limit.last_message_sent = current_time;
@@ -111,9 +106,7 @@ end
 function AutoGuild:WelcomeBack(message)
 
 	-- Fetch the number of players in the guild
-	-- luacheck: push ignore 113
 	local player_count = GetNumGuildMembers();
-	-- luacheck: pop
 
 	-- Temp variable to store split results
 	local splits
@@ -128,10 +121,8 @@ function AutoGuild:WelcomeBack(message)
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
-		-- luacheck: push ignore 113
 		splits = AutoGuild.StringSplit(_, GetGuildRosterInfo(i), "-");
 		local guild_member = splits[1];
-		-- luacheck: pop
 
 		-- If the person that just logged in is in our guild then welcome them back
 		if detected_player:match(guild_member) then
@@ -142,9 +133,7 @@ function AutoGuild:WelcomeBack(message)
 end
 
 -- Create a frame and register to the system messages
--- luacheck: push ignore 113
 AutoGuild.frame = CreateFrame("Frame");
--- luacheck: pop
 AutoGuild.frame:RegisterEvent("CHAT_MSG_SYSTEM");
 AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
@@ -153,9 +142,7 @@ AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 
 	-- If we aren't in a guild then do nothing
-	-- luacheck: push ignore 113
 	if not IsInGuild() then
-	-- luacheck: pop
 		return;
 	end
 
