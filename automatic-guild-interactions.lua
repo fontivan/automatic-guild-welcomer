@@ -9,7 +9,7 @@ local level_patterns = {
 };
 
 -- Trim any excess whitespace from the string
-local function AutoGuild_TrimString(input)
+function AutoGuild_TrimString(input)
 
 	-- Protect against a bad input
 	if input == nil
@@ -22,7 +22,7 @@ local function AutoGuild_TrimString(input)
 end
 
 -- Return the first element from a string split operation
-local function AutoGuild_GetFirstElement (input, sep)
+function AutoGuild_GetFirstElement (input, sep)
 
 	-- Protect against a bad input
 	if input == nil then
@@ -41,7 +41,7 @@ local function AutoGuild_GetFirstElement (input, sep)
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
-local function AutoGuild_WelcomeBack(message)
+function AutoGuild_WelcomeBack(message)
 
 	-- Fetch the number of players in the guild
 	local player_count = GetNumGuildMembers()
@@ -65,13 +65,13 @@ local function AutoGuild_WelcomeBack(message)
 end
 
 -- Send a level up message to guild chat
-local function AutoGuild_LevelUp()
+function AutoGuild_LevelUp()
 	SendChatMessage("ding", "GUILD")
 	return
 end
 
 -- Send a grats message to guild chat
-local function AutoGuild_Grats()
+function AutoGuild_Grats()
 	SendChatMessage("grats", "GUILD")
 	return
 end
@@ -107,12 +107,12 @@ systemFrame:SetScript("OnEvent", function (self, event, message, ...)
 end)
 
 -- Create a frame and register to the system messages
-local systemFrame = CreateFrame("Frame")
-systemFrame:RegisterEvent("CHAT_MSG_GUILD")
+local guildFrame = CreateFrame("Frame")
+guildFrame:RegisterEvent("CHAT_MSG_GUILD")
 
 -- On receiving a message, run this function
-systemFrame:SetScript("OnEvent", function (self, event, message, ...)
+guildFrame:SetScript("OnEvent", function (self, event, message, ...)
 	if message:match("ding") then
 		AutoGuild_Grats()
 	end
-end
+end)
