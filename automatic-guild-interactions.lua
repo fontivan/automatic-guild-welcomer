@@ -2,6 +2,7 @@
 -- luacheck: push ignore 212
 
 -- Global table for storing everything
+-- luacheck: push ignore 113
 local AutoGuild = {
 	patterns = {
 		login = {
@@ -16,11 +17,10 @@ local AutoGuild = {
 		min_message_time = 10
 	},
 	frame = {},
-	-- luacheck: push ignore 113
 	player_name = UnitName("player"),
-	-- luacheck: pop,
 	debug_logs = false
 };
+	-- luacheck: pop,
 
 -- Log a debug message if the debug flag is set
 function AutoGuild:LogDebugMessage(message)
