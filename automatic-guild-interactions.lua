@@ -30,15 +30,19 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
+	-- luacheck: push ignore 113
 	local current_time = time(date("!*t"));
+	-- luacheck: pop
 
 	-- Check against the last timestamp
-	-- The current time must be greater then the last time 
+	-- The current time must be greater then the last time
 	-- the message was sent plus the minimum time between messages
 	if current_time > AutoGuild.rate_limit.min_message_time + AutoGuild.rate_limit.last_message_sent then
 
 		-- Send the chat message
+		-- luacheck: push ignore 113
 		SendChatMessage(message, channel);
+		-- luacheck: pop
 
 		-- Record the time we sent the message
 		AutoGuild.rate_limit.last_message_sent = current_time;
@@ -110,7 +114,7 @@ AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 
 -- On receiving a message, run this function
-AutoGuild.frame:SetScript("OnEvent", function (self, event, message, ...)
+AutoGuild.frame:SetScript("OnEvent", function (_, event, message, ...)
 
 	-- If we aren't in a guild then do nothing
 	if not IsInGuild() then
