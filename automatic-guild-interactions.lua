@@ -68,7 +68,7 @@ function AutoGuild:TrimString(input)
 end
 
 -- Return the first element from a string split operation
-function AutoGuild:GetFirstElement (input, sep)
+function AutoGuild:GetFirstElement(input, sep)
 
 	-- Protect against a bad input
 	if input == nil then
@@ -94,19 +94,19 @@ function AutoGuild:WelcomeBack(message)
 	-- luacheck: pop
 
 	-- Strip the player name of the person who just logged in
-	local detected_player = AutoGuild.GetFirstElement(message);
+	local detected_player = AutoGuild.GetFirstElement(_, message);
 
 	-- Loop over the player indexes and see if any of them were the player that logged in
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
 		-- luacheck: push ignore 113
-		local guild_member = AutoGuild.GetFirstElement(GetGuildRosterInfo(i), "-");
+		local guild_member = AutoGuild.GetFirstElement(_, GetGuildRosterInfo(i), "-");
 		-- luacheck: pop
 
 		-- If the person that just logged in is in our guild then welcome them back
 		if detected_player:match(guild_member) then
-			AutoGuild.SendMessage("wb", "GUILD");
+			AutoGuild.SendMessage(_, "wb", "GUILD");
 			return;
 		end
 	end
@@ -136,7 +136,7 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 		-- Check if the message was a login message
 		for _, pattern in pairs(AutoGuild.patterns.login) do
 			if message:match(pattern) then
-				AutoGuild.WelcomeBack(message);
+				AutoGuild.WelcomeBack(_, message);
 				return;
 			end
 		end
@@ -146,7 +146,7 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 
 	-- Check if its a level up
 	if event == "PLAYER_LEVEL_UP" then
-		AutoGuild.SendMessage("ding", "GUILD");
+		AutoGuild.SendMessage(_, "ding", "GUILD");
 		return;
 	-- end PLAYER_LEVEL_UP
 	end
@@ -157,7 +157,7 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message)
 		-- Check against the patterns for incoming level up messages
 		for _, pattern in pairs(AutoGuild.patterns.level) do
 			if message:match(pattern) then
-				AutoGuild.SendMessage("grats", "GUILD");
+				AutoGuild.SendMessage(_, "grats", "GUILD");
 				return;
 			end
 		end
