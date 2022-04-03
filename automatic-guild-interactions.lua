@@ -1,4 +1,7 @@
 
+-- luacheck: ignore _
+-- luacheck: ignore self
+
 -- Global table for storing everything
 -- luacheck: ignore UnitName
 local AutoGuild = {
@@ -45,7 +48,7 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
-	-- luacheck ignore: time, date
+	-- luacheck ignore: time date
 	local current_time = time(date("!*t"));
 
 	-- Check against the last timestamp
