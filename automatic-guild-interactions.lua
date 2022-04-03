@@ -79,16 +79,17 @@ function AutoGuild:GetFirstElement (input, sep)
 	end
 
 	-- Return the first match from the separator.
-	for str in string.gmatch(input, "([^"..sep.."]+)") do
-		return AutoGuild.TrimString(str);
-	end
+	results = string.gmatch(input, "([^"..sep.."]+)")
+	return results[1]
 end
 
 -- Check if the player that logged in was a guildy, and if so, send a welcome message
 function AutoGuild:WelcomeBack(message)
 
 	-- Fetch the number of players in the guild
+	-- luacheck: push ignore 113
 	local player_count = GetNumGuildMembers();
+	-- luacheck: pop
 
 	-- Strip the player name of the person who just logged in
 	local detected_player = AutoGuild.GetFirstElement(message);
@@ -97,7 +98,9 @@ function AutoGuild:WelcomeBack(message)
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
+		-- luacheck: push ignore 113
 		local guild_member = AutoGuild.GetFirstElement(GetGuildRosterInfo(i), "-");
+		-- luacheck: pop
 
 		-- If the person that just logged in is in our guild then welcome them back
 		if detected_player:match(guild_member) then
@@ -108,7 +111,9 @@ function AutoGuild:WelcomeBack(message)
 end
 
 -- Create a frame and register to the system messages
+-- luacheck: push ignore 113
 AutoGuild.frame = CreateFrame("Frame");
+-- luacheck: pop
 AutoGuild.frame:RegisterEvent("CHAT_MSG_SYSTEM");
 AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
@@ -117,7 +122,9 @@ AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 AutoGuild.frame:SetScript("OnEvent", function (_, event, message, ...)
 
 	-- If we aren't in a guild then do nothing
+	-- luacheck: push ignore 113
 	if not IsInGuild() then
+	-- luacheck: pop
 		return;
 	end
 
