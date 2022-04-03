@@ -1,3 +1,7 @@
+v1.2.1
+- Fix some minor lua issues
+- Fix typo in addon description
+
 v1.2.0
 - Added luacheck github action
 - Add rate limiter for sending messages to guild chat
