@@ -48,8 +48,9 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
-	-- luacheck ignore: time date
+	-- luacheck: push ignore 113
 	local current_time = time(date("!*t"));
+	-- luacheck: pop
 
 	-- Check against the last timestamp
 	-- The current time must be greater then the last time
