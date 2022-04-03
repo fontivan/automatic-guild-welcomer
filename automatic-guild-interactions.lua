@@ -45,8 +45,7 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
-	-- luacheck ignore: time
-	-- luacheck ignore: date
+	-- luacheck ignore: time, date
 	local current_time = time(date("!*t"));
 
 	-- Check against the last timestamp
@@ -55,6 +54,7 @@ function AutoGuild:SendMessage(message, channel)
 	if current_time > AutoGuild.rate_limit.min_message_time + AutoGuild.rate_limit.last_message_sent then
 
 		-- Send the chat message
+		-- luacheck: ignore SendChatMessage
 		SendChatMessage(message, channel);
 
 		-- Record the time we sent the message
@@ -125,6 +125,7 @@ function AutoGuild:WelcomeBack(message)
 	for i=1,player_count+1 do
 
 		-- Get the name of the guild member of that index position
+		-- luacheck: ignore GetGuildRosterInfo
 		splits = AutoGuild.StringSplit(_, GetGuildRosterInfo(i), "-");
 		local guild_member = splits[1];
 
@@ -137,6 +138,7 @@ function AutoGuild:WelcomeBack(message)
 end
 
 -- Create a frame and register to the system messages
+-- luacheck: ignore CreateFrame
 AutoGuild.frame = CreateFrame("Frame");
 AutoGuild.frame:RegisterEvent("CHAT_MSG_SYSTEM");
 AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
