@@ -1,5 +1,6 @@
 
 -- Global table for storing everything
+-- luacheck: ignore UnitName
 local AutoGuild = {
 	patterns = {
 		login = {
@@ -44,6 +45,8 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
+	-- luacheck ignore: time
+	-- luacheck ignore: date
 	local current_time = time(date("!*t"));
 
 	-- Check against the last timestamp
@@ -106,6 +109,7 @@ end
 function AutoGuild:WelcomeBack(message)
 
 	-- Fetch the number of players in the guild
+	-- luacheck: ignore GetNumGuildMembers
 	local player_count = GetNumGuildMembers();
 
 	-- Temp variable to store split results
@@ -142,6 +146,7 @@ AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
 AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 
 	-- If we aren't in a guild then do nothing
+	-- luacheck: ignore IsInGuild
 	if not IsInGuild() then
 		return;
 	end
