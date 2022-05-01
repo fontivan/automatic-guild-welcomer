@@ -10,29 +10,34 @@ local AutoGuild = {
 			"has come online."
 		},
 		level = {
-			"ding"
+			"^ding%p*$",
+			"^Ding%p*$",
+		},
+		guild_join = {
+			"has joined the guild."
 		}
 	},
 	rate_limit = {
 		last_message_sent = 0,
 		min_message_time = 10
 	},
+	messages = {
+		level_up = "ding",
+		welcome_back = "wb",
+		congratulations = "grats",
+		welcome = "welcome"
+	},
+	channels = {
+		guild = "GUILD"
+	},
+	subscription_events = {
+		"CHAT_MSG_SYSTEM",
+		"PLAYER_LEVEL_UP",
+		"CHAT_MSG_GUILD"
+	},
 	frame = {},
-	player_name = UnitName("player"),
-	debug_logs = false
+	player_name = UnitName("player")
 };
-
--- Log a debug message if the debug flag is set
-function AutoGuild:LogDebugMessage(message)
-
-	-- Return if debug logs is not enabled
-	if not AutoGuild.debug_logs then
-		return;
-	end
-
-	-- Print the debug message
-	print(message)
-end
 
 -- Rate limited function to send messages to chat channel
 function AutoGuild:SendMessage(message, channel)
@@ -48,6 +53,7 @@ function AutoGuild:SendMessage(message, channel)
 	end
 
 	-- Get the current timestamp (epoch in seconds)
+	-- date and time are WoW APIs that map to the lua os.time and os.date APIs
 	-- luacheck: push ignore 113
 	local current_time = time(date("!*t"));
 	-- luacheck: pop
@@ -85,8 +91,6 @@ end
 -- Return the first element from a string split operation
 function AutoGuild:StringSplit(input, sep)
 
-	AutoGuild.LogDebugMessage(_, "StringSplit input:" .. input)
-
 	-- Protect against a bad input
 	if input == nil then
 		return "";
@@ -120,10 +124,8 @@ function AutoGuild:WelcomeBack(message)
 	local splits
 
 	-- Strip the player name of the person who just logged in
-	AutoGuild.LogDebugMessage(_, "WelcomeBack message: " .. message);
 	splits = AutoGuild.StringSplit(_, message);
 	local detected_player = splits[1];
-	AutoGuild.LogDebugMessage(_, "WelcomeBack detected_player: " .. detected_player);
 
 	-- Loop over the player indexes and see if any of them were the player that logged in
 	for i=1,player_count+1 do
@@ -133,20 +135,24 @@ function AutoGuild:WelcomeBack(message)
 		splits = AutoGuild.StringSplit(_, GetGuildRosterInfo(i), "-");
 		local guild_member = splits[1];
 
+		if guild_member == nil or guild_member == "" then
+			return;
+		end
+
 		-- If the person that just logged in is in our guild then welcome them back
 		if detected_player:match(guild_member) then
-			AutoGuild.SendMessage(_, "wb", "GUILD");
+			AutoGuild.SendMessage(_, AutoGuild.messages.welcome_back, AutoGuild.channels.guild);
 			return;
 		end
 	end
 end
 
--- Create a frame and register to the system messages
+-- Create a frame and register to the events we care about
 -- luacheck: ignore CreateFrame
 AutoGuild.frame = CreateFrame("Frame");
-AutoGuild.frame:RegisterEvent("CHAT_MSG_SYSTEM");
-AutoGuild.frame:RegisterEvent("PLAYER_LEVEL_UP");
-AutoGuild.frame:RegisterEvent("CHAT_MSG_GUILD");
+for _, event in pairs(AutoGuild.subscription_events) do
+	AutoGuild.frame:RegisterEvent(event);
+end
 
 -- On receiving a message, run this function
 AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
@@ -168,12 +174,20 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 			end
 		end
 
+		-- Check if the message was a join message
+		for _, pattern in pairs(AutoGuild.patterns.guild_join) do
+			if message:match(pattern) then
+				AutoGuild.SendMessage(_, AutoGuild.messages.welcome, AutoGuild.channels.guild);
+				return;
+			end
+		end
+
 	-- end CHAT_MESSAGE_SYSTEM
 	end
 
 	-- Check if its a level up
 	if event == "PLAYER_LEVEL_UP" then
-		AutoGuild.SendMessage(_, "ding", "GUILD");
+		AutoGuild.SendMessage(_, AutoGuild.messages.level_up, AutoGuild.channels.guild);
 		return;
 	-- end PLAYER_LEVEL_UP
 	end
@@ -186,11 +200,10 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 			return;
 		end
 
-
 		-- Check against the patterns for incoming level up messages
 		for _, pattern in pairs(AutoGuild.patterns.level) do
 			if message:match(pattern) then
-				AutoGuild.SendMessage(_, "grats", "GUILD");
+				AutoGuild.SendMessage(_, AutoGuild.messages.congratulations, AutoGuild.channels.guild);
 				return;
 			end
 		end

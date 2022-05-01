@@ -1,4 +1,9 @@
-v.1.2.3
+v1.3.0
+- Added welcome message when somebody joins the guild
+- Fixed an issue that caused a lua error
+- Improved ding message detection
+
+v1.2.3
 - Replace incorrect version
 
 v1.2.2
