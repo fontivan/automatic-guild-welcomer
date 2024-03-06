@@ -26,4 +26,13 @@ fi
 echo "Installing addon"
 mkdir -p "${INSTALL_DIR}"
 cp "${LOCAL_ADDON_DIR}/${ADDON_NAME}.lua" "${INSTALL_DIR}"
-cp "${LOCAL_ADDON_DIR}/${ADDON_NAME}.toc" "${INSTALL_DIR}"
+
+TOC_FILES=(
+    "_Mainline"
+    "_Vanilla"
+    "_Wrath"
+)
+
+for TOC_FILE_SUFFIX in ${TOC_FILES[@]}; do
+    cp "${LOCAL_ADDON_DIR}/${ADDON_NAME}${TOC_FILE_SUFFIX}.toc" "${INSTALL_DIR}"
+done

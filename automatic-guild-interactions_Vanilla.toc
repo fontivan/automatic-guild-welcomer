@@ -1,4 +1,4 @@
-## Interface: 100200
+## Interface: 11500
 ## Title: Automatic Guild Interactions
 ## Notes: Automatically perform some simple guild interactions like welcoming members back and dinging.
 ## Author: fontivan

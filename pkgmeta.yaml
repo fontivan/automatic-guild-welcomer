@@ -1,3 +1,5 @@
+package-as: automatic-guild-interactions
+
 ignore:
     - install.sh
     - README.md
