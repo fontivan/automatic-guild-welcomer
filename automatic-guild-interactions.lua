@@ -176,6 +176,12 @@ AutoGuild.frame:SetScript("OnEvent", function (_, event, message, author)
 
 		-- Check if the message was a join message
 		for _, pattern in pairs(AutoGuild.patterns.guild_join) do
+
+			-- Don't check against our own messages
+			if author:match(AutoGuild.player_name) then
+				return;
+			end
+
 			if message:match(pattern) then
 				AutoGuild.SendMessage(_, AutoGuild.messages.welcome, AutoGuild.channels.guild);
 				return;

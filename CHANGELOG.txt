@@ -1,3 +1,6 @@
+v1.3.1
+- Fixed a bug where upon joining a guild you would welcome yourself
+
 v1.3.0
 - Added welcome message when somebody joins the guild
 - Fixed an issue that caused a lua error
